@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Header from "./components/nav/Header";
+import RegisterComplete from "./pages/auth/RegisterComplete";
 
 
 const App = () => {
@@ -28,7 +29,8 @@ const App = () => {
             />
             <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/login" exact component={Login} />
+                <Route path="/login" component={Login} />
+                <Route path="/register/complete" component={RegisterComplete} />
                 <Route path="/register" exact component={Register} />
             </Switch>
         </>

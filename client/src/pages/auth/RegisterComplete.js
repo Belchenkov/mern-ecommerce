@@ -1,34 +1,26 @@
-import React, { useState } from 'react';
-import { MailTwoTone, CheckCircleOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from 'react';
+import { MailTwoTone, LikeOutlined, UnlockTwoTone } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import { toast } from 'react-toastify';
 
 import  { auth } from "../../firebase";
+import 'react-toastify/dist/ReactToastify.css';
 
-const Register = () => {
+const RegisterComplete = ({ history }) => {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        setEmail(window.localStorage.getItem('emailForRegistration') || '');
+    }, []);
 
     const handleSubmit = async e => {
         e.preventDefault(e);
 
-        const config = {
-            url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
-            handleCodeInApp: true
-        };
 
-        await auth.sendSignInLinkToEmail(email, config);
-
-        // Show notice
-        toast.success(`Email is sent to ${email}. Click the link to complete your registration.`);
-
-        // Save to LS
-        window.localStorage.setItem('emailForRegistration', email);
-
-        // clear state
-        setEmail('');
     };
 
-    const registerForm = () => {
+    const completeRegisterForm = () => {
         return (
             <form
                 className="text-center"
@@ -37,23 +29,29 @@ const Register = () => {
                 <Input
                     size="large"
                     type="email"
-                    placeholder="Enter email..."
                     prefix={<MailTwoTone />}
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    onPressEnter={handleSubmit}
+                    disabled
+                    className="mb-3"
+                />
+                <Input.Password
+                    size="large"
+                    type="password"
+                    prefix={<UnlockTwoTone />}
+                    value={password}
                     autoFocus
-                    allowClear
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder="Enter password..."
                 />
                 <Button
                     className="mt-3 btn btn-raised btn-success"
                     htmlType="submit"
                     shape="round"
-                    icon={<CheckCircleOutlined />}
+                    icon={<LikeOutlined />}
                     size="large"
                     loading={false}
                 >
-                    Register
+                    Complete Registration
                 </Button>
             </form>
         )
@@ -63,12 +61,12 @@ const Register = () => {
         <div className="container p-5">
             <div className="row">
                 <div className="col-md-6 offset-md-3 text-center">
-                    <h3>Register</h3>
-                    { registerForm() }
+                    <h3>Register Complete</h3>
+                    { completeRegisterForm() }
                 </div>
             </div>
         </div>
     );
 };
 
-export default Register;
+export default RegisterComplete;
