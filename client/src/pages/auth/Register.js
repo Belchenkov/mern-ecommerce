@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MailTwoTone, CheckCircleOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import  { auth } from "../../firebase";
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,7 +13,7 @@ const Register = () => {
         e.preventDefault(e);
 
         const config = {
-            url: 'http://localhost:3000/register/complete',
+            url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
             handleCodeInApp: true
         };
 
@@ -65,17 +65,6 @@ const Register = () => {
             <div className="row">
                 <div className="col-md-6 offset-md-3 text-center">
                     <h3>Register</h3>
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                    />
                     { registerForm() }
                 </div>
             </div>
